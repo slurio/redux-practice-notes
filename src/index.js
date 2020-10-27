@@ -2,16 +2,29 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import {createStore, applyMiddleware} from 'redux'; 
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+
+const rootReducer = (currentState = {notes: []}, action) => { 
+  if (action.type === "add note") {
+    return { ...currentState, notes: [...currentState.notes, action.payload] }
+  } else if (action.type === "add_notes_from_fetch") {
+    return { ...currentState, notes: action.payload}
+  } else {
+    return currentState
+  }
+}
+//reducer is a function that returns a state object
+const store = createStore(rootReducer, applyMiddleware(thunk)) 
+
+console.log("Store", store)
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
