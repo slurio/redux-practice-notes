@@ -8,4 +8,4 @@ function Note({ note }) {
     )
 }
 
-export default Note;
+export default Note; 
