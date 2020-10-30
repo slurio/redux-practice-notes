@@ -1,11 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Note from '../components/Note';
-import {connect} from 'react-redux';
 import NoteForm from '../components/NoteForm';
-import { getNotes } from '../redux/action'
+import { getNotes } from '../redux/actions'
+
+
 
 class NotesContainer extends React.Component {
-    // state = { notes: [] }
 
     componentDidMount() {
         this.props.fetchNotes()
@@ -16,7 +17,7 @@ class NotesContainer extends React.Component {
     }
 
     render () {
-        console.log("Container Props:", this.props)
+        console.log("Note Container Props:", this.props)
         return (
             <>
             <NoteForm />
@@ -28,12 +29,15 @@ class NotesContainer extends React.Component {
     }
 }
 
-//read action
+//reader action
+//job to accept current state that lives inside our store and tell what state belongs to NotesContainer 
 const msp = (state) => {
-     return {notes: state.notes }
+    console.log('current Redux state in NotesContainer', state)
+    return {notes : state.notes}
 }
 
 //write action
+
 const mdp = (dispatch) => {
     return {fetchNotes: () => dispatch(getNotes())}
 }

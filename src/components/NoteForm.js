@@ -1,6 +1,6 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {addNote} from '../redux/action'
+import { connect } from 'react-redux';
+import { addNote } from '../redux/actions'
 
 
 class NoteForm extends React.Component {
@@ -14,13 +14,13 @@ class NoteForm extends React.Component {
        this.setState({content: event.target.value})
     }
 
-    submitHandler = (event) => {
-        event.preventDefault();
-        this.props.submitHandler(this.state);
-        this.setState({content: ""});
+    submitHandler = (e) => {
+        e.preventDefault()
+        this.props.submitHandler(this.state)
     }
 
     render() {
+        console.log("Form Props", this.props)
         return (
             <form onSubmit={this.submitHandler}>
                 <input type="textarea" value={this.state.content} onChange={this.changeHandle} />
@@ -30,10 +30,13 @@ class NoteForm extends React.Component {
     }
 }
 
-//write to store
+// write to the store
+// mapDispatchToProps
 const mdp = (dispatch) => {
-    //dispatch: take in an action and then call out reducer and pass that action in to the reducer
-    return { submitHandler: (note) => dispatch(addNote(note))}
+    //dispatch comes from our store
+    //dispatch job: take in an action and then call our reducer and pass that action into the reducer
+    return {submitHandler: (noteObj) =>  dispatch(addNote(noteObj))}
+
 }
 
 export default connect(null, mdp)(NoteForm)
